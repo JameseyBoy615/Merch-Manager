@@ -12,8 +12,19 @@
     <header>
       <nav>
         <ul>
+          {% if user.is_authenticated %}
           <li><a href={% url 'merch-index'%}>All Merch</a></li>
+          <li><a href={% url 'user-merch-index'%}>Your Added Merch</a></li>
           <li><a href={% url 'merch-create'%}>Add an Item</a></li>
+          <form id="logout-form" method="post" action="{% url 'logout' %}">
+            {% csrf_token %}
+            <button type="submit">Log out</button>
+          </form>
+        </li>
+          {% else %}
+          <li><a href="{% url 'home' %}">Login</a></li>
+          <li><a href="{% url 'signup' %}">Sign Up</a></li>
+          {% endif %}
         </ul>
       </nav>
     </header>
