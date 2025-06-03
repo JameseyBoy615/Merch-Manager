@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 
 class Item(models.Model):
     item_number = models.IntegerField()
@@ -10,10 +11,13 @@ class Item(models.Model):
     notes = models.CharField(max_length=250)
     is_resolved = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
-    updates_at = models.DateTimeField(auto_now=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return self.description
+    
+    def get_absolute_url(self):
+        return reverse('merch-detail', kwargs={'item_id': self.id})
     
 
 

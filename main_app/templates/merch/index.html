@@ -4,9 +4,11 @@
 
 {% for item in items %}
 <div>
-  <h2>{{ item.name }}</h2>
-  <p>{{item.item_number}}</p>
-  <p>Department: {{ item.department }}</p>
-  <p>Qty: {{ item.qty }}</p>
+  <a href="{% url 'merch-detail' item.id %}">
+    <h2>{{ item.description }}</h2>
+    <p>Item number: {{item.item_number}}</p>
+    <p>Created at: {{ item.created_at }}</p>
+    <p>Last updated: {{ item.updated_at }}</p>
+  </a>
 </div>
 {% endfor %} {% endblock %}

@@ -1,0 +1,19 @@
+{% extends 'base.html' %} {% block content %}
+
+<div>
+  <h2>{{ item.description }}</h2>
+  {% if item.is_resolved == False %}
+  <p>Issue still ongoing</p>
+  {% else %}
+  <p>Resolved</p>
+  {% endif %}
+  <p>Item number: {{item.item_number}}</p>
+  <p>Department: {{item.department}}</p>
+  <p>Qty: {{item.qty}}</p>
+  <p>Exp. Date: {{item.exp_date}}</p>
+  <p>location: {{item.location}}</p>
+  <p>Notes: {{item.notes}}</p>
+  <p>Created {{ item.created_at }}</p>
+  <p>Last updated: {{ item.updated_at }}</p>
+</div>
+{% endblock %}
