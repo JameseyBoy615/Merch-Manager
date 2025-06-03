@@ -1,26 +1,19 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-from django.views.generic.edit import CreateView
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from .models import Item
-
-# class Item:
-#     def __init__(self, item_number, name, department, qty, ):
-#         self.item_number = item_number
-#         self.name = name
-#         self.department = department
-#         self.qty = qty
-
-# items = [
-#     Item('101010', 'Frz Bagel', '63', '60'),
-#     Item('34567', 'Frz shrimp', '63', '88'),
-#     Item('234563456', 'Rib eye', '61', '7'),
-#     Item('34563456', 'LG tv', '17', '12'),
-#     Item('34523432', 'yogurt', '19', '120'),
-# ]
 
 class ItemCreate(CreateView):
     model = Item
-    fields = ['item_number', 'description', 'department', 'qty', 'exp_date', 'location', 'notes']       
+    fields = ['item_number', 'description', 'department', 'qty', 'exp_date', 'location', 'notes']
+       
+class ItemUpdate(UpdateView):
+    model = Item
+    fields = ['item_number', 'description', 'department', 'qty', 'exp_date', 'location', 'notes' ]
+
+class ItemDelete(DeleteView):
+    model = Item
+    success_url = '/merch/'
 
 def home(request):
     return HttpResponse('<h1>Home Page</h1>')

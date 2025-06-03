@@ -6,4 +6,6 @@ urlpatterns = [
     path('merch/', views.merch_index, name='merch-index'), 
     path('merch/<int:item_id>/', views.merch_detail, name='merch-detail'),
     path('merch/create/', views.ItemCreate.as_view(), name='merch-create'),
+    path('merch/<int:pk>/update/', views.ItemUpdate.as_view(), name='merch-update'),
+    path('merch/<int:pk>/delete/', views.ItemDelete.as_view(), name='merch-delete'),
 ]

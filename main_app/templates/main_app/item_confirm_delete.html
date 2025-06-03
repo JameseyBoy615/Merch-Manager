@@ -1,0 +1,13 @@
+{% extends 'base.html' %} {% block content %}
+
+<h1>Delete Item?</h1>
+
+<h2>Are you sure you want to delete {{ item.description }}?</h2>
+
+<form action="" method="post" class="form">
+  {% csrf_token %}
+  <a href="{% url 'merch-detail' item.id %}">Cancel</a>
+  <button type="submit">Yes - Delete!</button>
+</form>
+
+{% endblock %}

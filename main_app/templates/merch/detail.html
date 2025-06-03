@@ -16,4 +16,9 @@
   <p>Created {{ item.created_at }}</p>
   <p>Last updated: {{ item.updated_at }}</p>
 </div>
+
+<div>
+  <a href="{% url 'merch-update' item.id %}">Edit</a>
+  <a href="{% url 'merch-delete' item.id %}">Delete</a>
+</div>
 {% endblock %}
