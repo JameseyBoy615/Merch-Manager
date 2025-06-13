@@ -1,45 +1,96 @@
 {% extends 'base.html' %} {% block content %}
 
-<div>
-  <h2>{{ item.description }}</h2>
-  {% if item.is_resolved == False %}
-  <p>Issue still ongoing</p>
-  {% else %}
-  <p>Resolved</p>
-  {% endif %}
-  <p>Item number: {{item.item_number}}</p>
-  <p>Department: {{item.department}}</p>
-  <p>Qty: {{item.qty}}</p>
-  <p>Exp. Date: {{item.exp_date}}</p>
-  <p>location: {{item.location}}</p>
-  <p>Notes: {{item.notes}}</p>
-  <p>Created {{ item.created_at }}</p>
-  <p>Last updated: {{ item.updated_at }}</p>
+<div class="px-4 py-10 flex items-start justify-center">
+  <div class="bg-white shadow-md rounded-lg p-6 w-full space-y-6">
+    <div class="border-b pb-4">
+      <h2 class="text-2xl font-semibold text-gray-800">
+        {{ item.description }}
+      </h2>
+      {% if item.is_resolved == False %}
+      <p class="text-red-600 font-medium mt-1">Issue still ongoing</p>
+      {% else %}
+      <p class="text-green-600 font-medium mt-1">Resolved</p>
+      {% endif %}
+    </div>
+
+    <div class="space-y-1 text-gray-700 text-sm">
+      <p>
+        <span class="font-medium">Item number:</span> {{ item.item_number }}
+      </p>
+      <p><span class="font-medium">Department:</span> {{ item.department }}</p>
+      <p><span class="font-medium">Qty:</span> {{ item.qty }}</p>
+      <p><span class="font-medium">Exp. Date:</span> {{ item.exp_date }}</p>
+      <p><span class="font-medium">Location:</span> {{ item.location }}</p>
+      <p><span class="font-medium">Notes:</span> {{ item.notes }}</p>
+      <p><span class="font-medium">Created:</span> {{ item.created_at }}</p>
+      <p>
+        <span class="font-medium">Last updated:</span> {{ item.updated_at }}
+      </p>
+    </div>
+
+    <div class="flex gap-4">
+      <a
+        href="{% url 'merch-update' item.id %}"
+        class="text-blue-600 hover:underline"
+        >Edit</a
+      >
+      <a
+        href="{% url 'merch-delete' item.id %}"
+        class="text-red-600 hover:underline"
+        >Delete</a
+      >
+    </div>
+
+    <div class="pt-6 border-t space-y-4">
+      <h3 class="text-xl font-semibold text-gray-800">Add an Update</h3>
+      <form
+        action="{% url 'add_comment' item.id %}"
+        method="post"
+        autocomplete="off"
+        class="space-y-4"
+      >
+        {% csrf_token %}
+
+        <div>
+          <label
+            for="{{ comment_form.text.id_for_label }}"
+            class="block text-sm font-medium text-gray-700"
+          >
+            Update
+          </label>
+          {{ comment_form.text }} {% if comment_form.text.errors %}
+          <p class="text-sm text-red-600 mt-1">
+            {{ comment_form.text.errors.0 }}
+          </p>
+          {% endif %}
+        </div>
+
+        <button
+          type="submit"
+          class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-md"
+        >
+          Add Update
+        </button>
+      </form>
+    </div>
+
+    <div class="pt-6 border-t space-y-2">
+      <h3 class="text-xl font-semibold text-gray-800">Updates</h3>
+      {% if item.comments.all %}
+      <ul class="space-y-2 text-sm text-gray-700">
+        {% for comment in item.comments.all %}
+        <li class="pb-2">
+          <span class="font-medium">{{ comment.user.username }}</span>
+          <span class="text-gray-500 text-xs">({{ comment.created_at }})</span>:
+          <span>{{ comment.text }}</span>
+        </li>
+        {% endfor %}
+      </ul>
+      {% else %}
+      <p class="text-gray-500">No Updates Yet</p>
+      {% endif %}
+    </div>
+  </div>
 </div>
 
-<div>
-  <a href="{% url 'merch-update' item.id %}">Edit</a>
-  <a href="{% url 'merch-delete' item.id %}">Delete</a>
-</div>
-
-<h3>Add an Update</h3>
-<form action="{% url 'add_comment' item.id %}" method="post" autocomplete="off">
-  {% csrf_token %} {{ comment_form.as_p }}
-  <button type="submit" class="btn submit">Add Update</button>
-</form>
-
-<div>
-  <h3>Comments</h3>
-  {% if item.comments.all %}
-  <ul>
-    {% for comment in item.comments.all %}
-    <li>
-      {{ comment.user.username }} ({{ comment.created_at}}): {{ comment.text }}
-    </li>
-    {% endfor %}
-  </ul>
-  {% else %}
-  <p>No Updates Yet</p>
-  {% endif %}
-</div>
 {% endblock %}

@@ -8,13 +8,14 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import Item
 from .forms import CommentForm
+from .forms import ItemForm
 
 class Home(LoginView):
     template_name = 'home.html'
 
 class ItemCreate(LoginRequiredMixin, CreateView):
     model = Item
-    fields = ['item_number', 'description', 'department', 'qty', 'exp_date', 'location', 'notes']
+    form_class = ItemForm
 
     def form_valid(self, form):
         form.instance.user = self.request.user
@@ -22,7 +23,7 @@ class ItemCreate(LoginRequiredMixin, CreateView):
        
 class ItemUpdate(LoginRequiredMixin, UpdateView):
     model = Item
-    fields = ['item_number', 'description', 'department', 'qty', 'exp_date', 'location', 'notes' ]
+    form_class = ItemForm
 
 class ItemDelete(LoginRequiredMixin, DeleteView):
     model = Item

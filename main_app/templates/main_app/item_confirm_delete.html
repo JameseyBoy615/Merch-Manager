@@ -1,13 +1,30 @@
 {% extends 'base.html' %} {% block content %}
 
-<h1>Delete Item?</h1>
+<div class="min-h-screen flex items-center justify-center bg-gray-100 px-4">
+  <div class="bg-white p-8 rounded-lg shadow-lg max-w-md w-full text-center">
+    <h1 class="text-3xl font-bold mb-4 text-gray-800">Delete Item?</h1>
 
-<h2>Are you sure you want to delete {{ item.description }}?</h2>
+    <h2 class="mb-6 text-lg text-gray-700">
+      Are you sure you want to delete
+      <span class="font-semibold">{{ item.description }}</span>?
+    </h2>
 
-<form action="" method="post" class="form">
-  {% csrf_token %}
-  <a href="{% url 'merch-detail' item.id %}">Cancel</a>
-  <button type="submit">Yes - Delete!</button>
-</form>
+    <form action="" method="post" class="space-x-4">
+      {% csrf_token %}
+      <a
+        href="{% url 'merch-detail' item.id %}"
+        class="px-6 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-200"
+      >
+        Cancel
+      </a>
+      <button
+        type="submit"
+        class="px-6 py-2 bg-red-600 text-white font-semibold rounded-md hover:bg-red-700"
+      >
+        Yes - Delete!
+      </button>
+    </form>
+  </div>
+</div>
 
 {% endblock %}

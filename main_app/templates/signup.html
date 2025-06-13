@@ -1,16 +1,106 @@
 {% extends 'base.html' %} {% block content %}
 
-<h1>Sign Up</h1>
+<div class="min-h-screen flex items-center justify-center bg-gray-100 px-4">
+  <div class="bg-white p-8 rounded-lg shadow-lg max-w-md w-full">
+    <h1 class="text-3xl font-bold mb-6 text-center text-gray-800">Sign Up</h1>
 
-{% if error_message %}
-<p>{{ error_message }}</p>
-{% endif %}
-<form action="" method="post" class="form-container" autocomplete="off">
-  {% csrf_token %}
-  <table>
-    {{ form.as_table }}
-  </table>
-  <button type="submit">Submit!</button>
-</form>
+    {% if error_message %}
+    <p class="mb-4 text-red-600 text-center font-semibold">
+      {{ error_message }}
+    </p>
+    {% endif %}
+
+    <form
+      action=""
+      method="post"
+      autocomplete="off"
+      class="space-y-6"
+      novalidate
+    >
+      {% csrf_token %}
+
+      <div>
+        <label
+          for="{{ form.username.id_for_label }}"
+          class="block text-sm font-medium text-gray-700"
+          >Username</label
+        >
+        <input
+          type="text"
+          name="{{ form.username.html_name }}"
+          id="{{ form.username.id_for_label }}"
+          value="{{ form.username.value|default_if_none:'' }}"
+          class="mt-1 w-full rounded-md border border-gray-300 shadow-sm py-2 px-3 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500"
+          required
+        />
+        {% if form.username.errors %}
+        <p class="mt-1 text-sm text-red-600">{{ form.username.errors.0 }}</p>
+        {% endif %}
+      </div>
+
+      <div>
+        <label
+          for="{{ form.email.id_for_label }}"
+          class="text-sm font-medium text-gray-700"
+          >Email</label
+        >
+        <input
+          type="email"
+          name="{{ form.email.html_name }}"
+          id="{{ form.email.id_for_label }}"
+          value="{{ form.email.value|default_if_none:'' }}"
+          class="mt-1 w-full rounded-md border border-gray-300 shadow-sm py-2 px-3 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500"
+          required
+        />
+        {% if form.email.errors %}
+        <p class="mt-1 text-sm text-red-600">{{ form.email.errors.0 }}</p>
+        {% endif %}
+      </div>
+
+      <div>
+        <label
+          for="{{ form.password1.id_for_label }}"
+          class="text-sm font-medium text-gray-700"
+          >Password</label
+        >
+        <input
+          type="password"
+          name="{{ form.password1.html_name }}"
+          id="{{ form.password1.id_for_label }}"
+          class="mt-1 w-full rounded-md border border-gray-300 shadow-sm py-2 px-3 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500"
+          required
+        />
+        {% if form.password1.errors %}
+        <p class="mt-1 text-sm text-red-600">{{ form.password1.errors.0 }}</p>
+        {% endif %}
+      </div>
+
+      <div>
+        <label
+          for="{{ form.password2.id_for_label }}"
+          class="text-sm font-medium text-gray-700"
+          >Confirm Password</label
+        >
+        <input
+          type="password"
+          name="{{ form.password2.html_name }}"
+          id="{{ form.password2.id_for_label }}"
+          class="mt-1 w-full rounded-md border border-gray-300 shadow-sm py-2 px-3 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500"
+          required
+        />
+        {% if form.password2.errors %}
+        <p class="mt-1 text-sm text-red-600">{{ form.password2.errors.0 }}</p>
+        {% endif %}
+      </div>
+
+      <button
+        type="submit"
+        class="w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-3 rounded-md transition"
+      >
+        Submit!
+      </button>
+    </form>
+  </div>
+</div>
 
 {% endblock %}

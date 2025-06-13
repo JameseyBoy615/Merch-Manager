@@ -1,14 +1,42 @@
 {% extends 'base.html' %} {% block content %}
 
-<h1>All Items</h1>
+<h1 class="text-2xl font-bold mb-6 text-center text-gray-800">All Items</h1>
 
-{% for item in items %}
-<div>
-  <a href="{% url 'merch-detail' item.id %}">
-    <h2>{{ item.description }}</h2>
-    <p>Item number: {{item.item_number}}</p>
-    <p>Created at: {{ item.created_at }}</p>
-    <p>Last updated: {{ item.updated_at }}</p>
+<div class="space-y-4 max-w-md mx-auto px-4">
+  {% for item in items %}
+  <a
+    href="{% url 'merch-detail' item.id %}"
+    class="block bg-white rounded-lg shadow-md p-4 hover:shadow-lg"
+  >
+    <h2 class="text-xl font-semibold text-blue-700 mb-2">
+      {{ item.description }}
+    </h2>
+    <p class="text-gray-600 text-sm mb-1">
+      Item number: <span class="font-mono">{{ item.item_number }}</span>
+    </p>
+    <p class="text-gray-500 text-xs mb-1">
+      Created: {{ item.created_at|date:"M d, Y" }}
+    </p>
+    <p class="text-gray-500 text-xs mb-2">
+      Last updated: {{ item.updated_at|date:"M d, Y" }}
+    </p>
+    {% if item.is_resolved %}
+    <p
+      class="inline-block text-green-600 text-xs font-semibold bg-green-100 rounded-full px-2 py-1"
+    >
+      Resolved
+    </p>
+    {% else %}
+    <p
+      class="inline-block text-red-600 text-xs font-semibold bg-red-100 rounded-full px-2 py-1"
+    >
+      Issue ongoing
+    </p>
+    {% endif %}
   </a>
+  {% empty %}
+  <p class="text-center text-gray-500">No items found.</p>
+  {% endfor %}
 </div>
-{% endfor %} {% endblock %}
+
+{% endblock %}
