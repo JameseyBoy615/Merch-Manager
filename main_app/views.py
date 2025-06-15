@@ -6,6 +6,7 @@ from django.contrib.auth import login
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import UserPassesTestMixin
 from .models import Item
 from .forms import CommentForm
 from .forms import ItemForm
@@ -13,7 +14,7 @@ from .forms import ItemForm
 class Home(LoginView):
     template_name = 'home.html'
 
-class ItemCreate(LoginRequiredMixin, CreateView):
+class ItemCreate( LoginRequiredMixin, CreateView):
     model = Item
     form_class = ItemForm
 
@@ -21,13 +22,27 @@ class ItemCreate(LoginRequiredMixin, CreateView):
         form.instance.user = self.request.user
         return super().form_valid(form)
        
-class ItemUpdate(LoginRequiredMixin, UpdateView):
+class ItemUpdate(UserPassesTestMixin, LoginRequiredMixin, UpdateView):
     model = Item
     form_class = ItemForm
 
-class ItemDelete(LoginRequiredMixin, DeleteView):
+    def test_func(self):
+        item = self.get_object()
+        return item.user == self.request.user
+    
+    def handle_no_permission(self):
+        return redirect('merch-index')
+
+class ItemDelete(UserPassesTestMixin, LoginRequiredMixin, DeleteView):
     model = Item
     success_url = '/merch/'
+
+    def test_func(self):
+        item = self.get_object()
+        return item.user == self.request.user
+    
+    def handle_no_permission(self):
+        return redirect('merch-index')
 
 @login_required
 def merch_index(request):
