@@ -1,1 +1,1 @@
-web: gunicorn <merchmanager>.wsgi
+web: gunicorn merchmanager.wsgi
