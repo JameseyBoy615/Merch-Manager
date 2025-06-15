@@ -97,7 +97,7 @@ else:
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql',
-            'NAME': '<merchmanager>',
+            'NAME': 'merchmanager',
         }
     }
 
