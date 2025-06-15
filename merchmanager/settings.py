@@ -38,8 +38,6 @@ ALLOWED_HOSTS = ["*"]
 
 INSTALLED_APPS = [
     'main_app',
-    'tailwind',
-    'theme',
     'django_browser_reload',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -48,6 +46,14 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 ]
+
+if DEBUG:
+    INSTALLED_APPS += [
+        'tailwind',
+        'theme', 
+    ]
+
+    TAILWIND_APP_NAME = 'theme' 
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -137,6 +143,10 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
 STATIC_URL = 'static/'
+
+STATICFILES_DIRS = [
+    BASE_DIR / 'theme' / 'static',
+]
 
 STATIC_ROOT = BASE_DIR / "staticfiles"
 
